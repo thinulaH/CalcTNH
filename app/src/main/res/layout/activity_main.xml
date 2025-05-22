@@ -10,7 +10,17 @@
 
     tools:context=".MainActivity">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:padding="10dp"
+        android:textSize="30dp"
+        android:background="@drawable/rounded_tab_background"
+        android:text="TNHCALC"
 
+        android:textColor="@color/black"/>
     <TextView
         android:id="@+id/input"
         android:layout_width="wrap_content"

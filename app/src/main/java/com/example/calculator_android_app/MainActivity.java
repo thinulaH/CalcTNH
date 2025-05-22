@@ -1,6 +1,8 @@
 package com.example.calculator_android_app;
 
 import android.os.Bundle;
+import android.view.HapticFeedbackConstants;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -24,11 +26,12 @@ public class MainActivity extends AppCompatActivity {
     private char currentOperator;
     private double firstOperand = Double.NaN;
     private double secondOperand;
-    private TextView inputDisplay, OutputDisplay;
+    private TextView inputDisplay, OutputDisplay, formula;
     private DecimalFormat decimalFormat;
     private MaterialButton button1, button2, button3, button4, button5, button6, button7, button8,
             button9, button0, buttonAdd, buttonSubtract, buttonMultiply, buttonDivide, buttonDot,
             buttonEquals, buttonOff, buttonClear, buttonPercent;
+
 
 
     @Override
@@ -72,6 +75,29 @@ public class MainActivity extends AppCompatActivity {
         button9.setOnClickListener(v -> inputDisplay.setText(inputDisplay.getText() + "9"));
         button0.setOnClickListener(v -> inputDisplay.setText(inputDisplay.getText() + "0"));
         buttonDot.setOnClickListener(v -> inputDisplay.setText(inputDisplay.getText() + "."));
+        View.OnTouchListener hapticTouchListener = new HapticTouchListener();
+
+        button0.setOnTouchListener(hapticTouchListener);
+        button1.setOnTouchListener(hapticTouchListener);
+        button2.setOnTouchListener(hapticTouchListener);
+        button3.setOnTouchListener(hapticTouchListener);
+        button4.setOnTouchListener(hapticTouchListener);
+        button5.setOnTouchListener(hapticTouchListener);
+        button6.setOnTouchListener(hapticTouchListener);
+        button7.setOnTouchListener(hapticTouchListener);
+        button8.setOnTouchListener(hapticTouchListener);
+        button9.setOnTouchListener(hapticTouchListener);
+        buttonDot.setOnTouchListener(hapticTouchListener);
+        buttonAdd.setOnTouchListener(hapticTouchListener);
+        buttonSubtract.setOnTouchListener(hapticTouchListener);
+        buttonMultiply.setOnTouchListener(hapticTouchListener);
+        buttonDivide.setOnTouchListener(hapticTouchListener);
+        buttonEquals.setOnTouchListener(hapticTouchListener);
+        buttonClear.setOnTouchListener(hapticTouchListener);
+        buttonOff.setOnTouchListener(hapticTouchListener);
+        buttonPercent.setOnTouchListener(hapticTouchListener);
+
+
         buttonAdd.setOnClickListener(v -> {
             currentOperator = OPERATOR_ADD;
             firstOperand = Double.parseDouble(inputDisplay.getText().toString());
@@ -87,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
             currentOperator = OPERATOR_MULTIPLY;
             firstOperand = Double.parseDouble(inputDisplay.getText().toString());
             inputDisplay.setText("");
+
         });
         buttonDivide.setOnClickListener(v -> {
             currentOperator = OPERATOR_DIVIDE;
@@ -96,12 +123,14 @@ public class MainActivity extends AppCompatActivity {
         buttonOff.setOnClickListener(v -> {
             firstOperand = Double.NaN;
             inputDisplay.setText("");
+
             OutputDisplay.setText("");
         });
 
         buttonClear.setOnClickListener(v -> {
             firstOperand = Double.NaN;
             inputDisplay.setText("");
+
             OutputDisplay.setText("");
         });
         buttonPercent.setOnClickListener(v -> {
@@ -120,6 +149,8 @@ public class MainActivity extends AppCompatActivity {
         }});
 
     }
+
+
 
     private void allCalculations(){
         try {
@@ -142,6 +173,21 @@ public class MainActivity extends AppCompatActivity {
             }
         } catch (Exception e) {
             OutputDisplay.setText("Error");
+        }
+    }
+
+    static class HapticTouchListener implements View.OnTouchListener {
+        @Override
+        public boolean onTouch(View view, MotionEvent event) {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+                    break;
+                case MotionEvent.ACTION_UP:
+                    view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY_RELEASE);
+                    break;
+            }
+            return false;
         }
     }
 }
